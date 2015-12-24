@@ -41,3 +41,4 @@ src/elevate.*
 src/install.cmd
 path.txt
 *.iml
+*.zip

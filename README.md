@@ -1,7 +1,7 @@
 ### autoss-go
 
 ### 下载autoss
-    下载地址: [下载autoss](https://github.com/ystyle/autoss-go/releases)
+  >下载地址: [https://github.com/ystyle/autoss-go/releases](https://github.com/ystyle/autoss-go/releases)
 
 ### 修改配置文件
 本软件依赖[shadowsocks](http://www.ishadowsocks.com/)请自行下载,并手动配置shadowsocks的位置.
