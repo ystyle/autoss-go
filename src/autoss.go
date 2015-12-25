@@ -134,7 +134,9 @@ func save(json string) {
  * 启动ss代理
  */
 func startSS() {
-	cmd := exec.Command(env.Cmd, env.Args)
+	cmdstr := env.Cmd + " " + env.Args
+	list := strings.Split(cmdstr," ")
+	cmd := exec.Command(list[0], list[1:]...)
 	err := cmd.Start()
 	if err != nil {
 		fmt.Println("SS代理启动失败:", err)
