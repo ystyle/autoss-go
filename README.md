@@ -31,3 +31,7 @@ config.json 文件
 
 ### Chrome浏览器设置
 下载插件: [SwitchyOmega](https://github.com/FelisCatus/SwitchyOmega/releases)
+
+插件配置备份: 
+[OmegaOptions.zip](https://github.com/ystyle/autoss-go/files/72014/OmegaOptions.zip)
+装好插件直接导入备份
