@@ -35,3 +35,15 @@ config.json 文件
 插件配置备份: 
 [OmegaOptions.zip](https://github.com/ystyle/autoss-go/files/72014/OmegaOptions.zip)
 装好插件直接导入备份
+
+### 手工编译
+```shell
+### win下建议用git-bash
+git clone https://github.com/ystyle/autoss-go.git
+cd autoss-go
+export GOPATH=`pwd`
+go get autoss
+go install autoss
+# edit config.json
+./bin/autoss
+```
