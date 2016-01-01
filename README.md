@@ -28,3 +28,10 @@ config.json 文件
 可以右键属性把图标改成 shadowsocks.exe
 
 双击桌面的图标启动shadowsocks , 在启动时会自动获取最新的服务器和密码
+
+### Chrome浏览器设置
+下载插件: [SwitchyOmega](https://github.com/FelisCatus/SwitchyOmega/releases)
+
+插件配置备份: 
+[OmegaOptions.zip](https://github.com/ystyle/autoss-go/files/72014/OmegaOptions.zip)
+装好插件直接导入备份
