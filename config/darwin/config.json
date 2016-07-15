@@ -1,0 +1,7 @@
+{
+	"cmd":"sslocal",
+	"json":"~/conf.json",
+	"timeout": 600,
+    "local_port": 1080,
+	"args":"-c ~/conf.json &"
+}

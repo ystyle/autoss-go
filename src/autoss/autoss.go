@@ -40,7 +40,7 @@ type Configs struct {
 }
 
 // 程序配置信息
-var env = Configs{}
+var env = &Configs{}
 
 func main() {
 	var url = "http://www.ishadowsocks.com"
@@ -69,21 +69,20 @@ func main() {
 			}
 			servers = append(servers, server)
 		}
-		data := readJson(env.Json) // 读ss的json文件
-		var setting string
+		jsonstr := readJson(env.Json) // 读ss的json文件
+		var jsonData interface{}
+		json.Unmarshal([]byte(jsonstr), &jsonData)
+		data := jsonData.(map[string]interface{})
 		if "windows" != runtime.GOOS {
 			s := rand.NewSource(time.Now().UnixNano())
 			r := rand.New(s)
 			index := r.Intn(3)
-			body, _ := json.Marshal(servers[index])
-			setting = string(body)
+			save(servers[index]) // 保存信息
 		} else {
 			data["configs"] = servers
 			data["localPort"] = env.Local_port
-			body, _ := json.Marshal(data)
-			setting = string(body)
+			save(data) // 保存信息
 		}
-		save(setting) // 保存信息
 		startSS()     // 启动ss代理
 	}
 }
@@ -95,11 +94,7 @@ func main() {
 func Setup() {
 	fmt.Println("初始化程序配置...")
 	data := readJson("./config.json")
-	env.Cmd = data["cmd"].(string)
-	env.Json = data["json"].(string)
-	env.Local_port = int(data["local_port"].(float64))
-	env.Timeout = int(data["timeout"].(float64))
-	env.Args = data["args"].(string)
+	json.Unmarshal([]byte(data), &env)
 }
 
 /**
@@ -107,7 +102,7 @@ func Setup() {
  * @param  {[type]} path string        路径
  * @return {[type]}      map接口
  */
-func readJson(path string) map[string]interface{} {
+func readJson(path string) string {
 	fi, err := os.Open(path)
 	if err != nil {
 		panic(err)
@@ -115,18 +110,18 @@ func readJson(path string) map[string]interface{} {
 	defer fi.Close()
 	fd, err := ioutil.ReadAll(fi)
 	str := string(fd)
-	var data interface{}
-	json.Unmarshal([]byte(str), &data)
-	return data.(map[string]interface{})
+	return str
 }
 
 /**
  * 保存json
  * @param  {[type]} json string        json字符串
  */
-func save(json string) {
+func save(data interface{}) {
 	fmt.Println("保存SS配置...")
-	var str = []byte(json)
+	body, _ := json.Marshal(data)
+	setting := string(body)
+	var str = []byte(setting)
 	_ = ioutil.WriteFile(env.Json, str, 0666)
 }
 
