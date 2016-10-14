@@ -11,8 +11,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+    "log"
+    "net/http"
 
-	"github.com/opesun/goquery"
+	"github.com/PuerkitoBio/goquery"
 )
 
 /**
@@ -44,19 +46,25 @@ var env = &Configs{}
 
 func main() {
 	var url = "http://www.ishadowsocks.com"
-	p, err := goquery.ParseUrl(url)
-	servers := []Server{}
+    req, err := http.NewRequest("GET", url, nil)
+    if err != nil {
+        log.Fatal("发起请求时出错错误", err)
+    }
+    req.Header.Set("User-Agent", "Mozilla/5.0 (Arch Linux kernel 4.6.5) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.0 Chrome/39.0.2146.0 Safari/537.36")
+    res, err := http.DefaultClient.Do(req)
+    if err != nil {
+        log.Fatal("发起请求时出错错误", err)
+    }
+	p, err := goquery.NewDocumentFromResponse(res)
 	if err != nil {
-		panic(err)
+		log.Fatal("解析html时出现错误", err)
 	} else {
 		Setup()
+        servers := []Server{}
 		divs := p.Find("section#free div.container div.row:last-child div")
-		for i := 0; i < divs.Length(); i++ {
+        for i := range divs.Nodes {
 			div := divs.Eq(i)
 			h4 := div.Find("h4")
-			if len(h4) == 0 {
-				continue
-			}
 			server_port, _ := strconv.Atoi(strings.Split(h4.Eq(1).Text(), ":")[1])
 			server := Server{
 				Remarks:     strings.Split(h4.Eq(0).Text(), ":")[0],
@@ -69,20 +77,22 @@ func main() {
 			}
 			servers = append(servers, server)
 		}
-		jsonstr := readJson(env.Json) // 读ss的json文件
-		var jsonData interface{}
-		json.Unmarshal([]byte(jsonstr), &jsonData)
-		data := jsonData.(map[string]interface{})
-		if "windows" != runtime.GOOS {
-			s := rand.NewSource(time.Now().UnixNano())
-			r := rand.New(s)
-			index := r.Intn(3)
-			save(servers[index]) // 保存信息
-		} else {
-			data["configs"] = servers
-			data["localPort"] = env.Local_port
-			save(data) // 保存信息
-		}
+        if len(servers) > 0 {
+            jsonstr := readJson(env.Json) // 读ss的json文件
+    		var jsonData interface{}
+    		json.Unmarshal([]byte(jsonstr), &jsonData)
+    		data := jsonData.(map[string]interface{})
+    		if "windows" != runtime.GOOS {
+    			s := rand.NewSource(time.Now().UnixNano())
+    			r := rand.New(s)
+    			index := r.Intn(3)
+    			save(servers[index]) // 保存信息
+    		} else {
+    			data["configs"] = servers
+    			data["localPort"] = env.Local_port
+    			save(data) // 保存信息
+    		}
+        }
 		startSS()     // 启动ss代理
 	}
 }

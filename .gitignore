@@ -28,6 +28,9 @@ bin/*.exe
 !bin/buildtools/*
 bin/*.zip
 bin/jvms/*
+bin
+config
+config.json
 
 # test file
 out
