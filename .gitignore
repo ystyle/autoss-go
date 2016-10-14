@@ -37,6 +37,7 @@ out
 .idea
 src/download
 src/github.com
+src/golang.org
 src/v*
 src/*.txt
 src/*.exe~
