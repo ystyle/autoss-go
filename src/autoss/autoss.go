@@ -61,7 +61,7 @@ func main() {
 	} else {
 		Setup()
         servers := []Server{}
-		divs := p.Find("section#free div.container div.row:last-child div")
+		divs := p.Find("section#free div.container div.row .col-sm-4.text-center")
         for i := range divs.Nodes {
 			div := divs.Eq(i)
 			h4 := div.Find("h4")
