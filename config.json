@@ -1,0 +1,7 @@
+{
+	"cmd":"D:\\Application\\SS\\Shadowsocks.exe",
+	"json":"D:\\Application\\SS\\gui-config.json",
+	"timeout": 600,
+    "local_port": 1080,
+	"args":""
+}

@@ -1,0 +1,11 @@
+package: github.com/ystyle/autoss
+homepage: https://github.com/ystyle/autoss
+description: 从http://www.ishadowsocks.com/ 自动生成config.json文件
+license: MIT
+owners:
+- name: ystyle
+  email: lxy5266@live.com
+  homepage: http://lxy520.net
+import:
+- package: github.com/PuerkitoBio/goquery
+  version: ^v1.0.1
